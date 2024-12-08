@@ -31,7 +31,6 @@ defmodule PhoenixImportmap do
         end)
     }
     |> Jason.encode!()
-    |> Phoenix.HTML.raw()
   end
 
   def dest_path_for_asset("//:" <> _), do: nil

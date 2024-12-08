@@ -37,7 +37,6 @@ defmodule PhoenixImportmapTest do
 
   test "importmap_json" do
     assert PhoenixImportmap.importmap_json(@example_importmap) ==
-             {:safe,
-              "{\"imports\":{\"app\":\"/assets/app.js\",\"phoenix_html\":\"/assets/phoenix_html.js\"}}"}
+             "{\"imports\":{\"app\":\"/assets/app.js\",\"phoenix_html\":\"/assets/phoenix_html.js\"}}"
   end
 end
