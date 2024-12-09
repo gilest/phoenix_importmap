@@ -18,6 +18,11 @@ defmodule PhoenixImportmap do
     :ok
   end
 
+  def project_importmap() do
+    Mix.Project.get().importmap()
+    |> importmap_json()
+  end
+
   def importmap_json(importmap = %{}) do
     %{
       imports:
