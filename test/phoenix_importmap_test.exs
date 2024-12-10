@@ -12,7 +12,7 @@ defmodule PhoenixImportmapTest do
 
   test "copy succeeds" do
     %{app: app_js_path} = @example_importmap
-    app_js_full_path = File.cwd!() <> PhoenixImportmap.dest_path_for_asset(app_js_path)
+    app_js_full_path = File.cwd!() <> PhoenixImportmap.Asset.dest_path(app_js_path)
 
     assert File.exists?(app_js_full_path) == false
     assert PhoenixImportmap.copy(@example_importmap) == :ok

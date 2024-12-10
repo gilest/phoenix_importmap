@@ -17,11 +17,11 @@ defmodule PhoenixImportmap.Watcher do
   end
 
   def handle_info(
-        {:file_event, _pid, {changed_file_path, [:modified, :closed]}} = _event,
+        {:file_event, _pid, {changed_asset_path, [:modified, :closed]}} = _event,
         %{importmap: importmap} = state
       ) do
     importmap
-    |> PhoenixImportmap.filter(relative_path(changed_file_path))
+    |> PhoenixImportmap.filter(relative_path(changed_asset_path))
     |> PhoenixImportmap.copy()
 
     {:noreply, state}
