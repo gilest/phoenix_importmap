@@ -31,4 +31,11 @@ defmodule PhoenixImportmapTest do
     assert PhoenixImportmap.importmap_json(@example_importmap) ==
              "{\"imports\":{\"app\":\"/assets/app.js\"}}"
   end
+
+  test "filtered_importmap" do
+    assert PhoenixImportmap.filter(
+             %{app: "/assets/js/app.js", other: "/nonesense"},
+             "/assets/js/app.js"
+           ) == @example_importmap
+  end
 end

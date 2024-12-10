@@ -24,6 +24,13 @@ defmodule PhoenixImportmap do
     :ok
   end
 
+  def filter(importmap = %{}, file_path) do
+    importmap
+    |> Enum.reduce(%{}, fn {key, path}, acc ->
+      if file_path == path, do: Map.put(acc, key, path), else: acc
+    end)
+  end
+
   def project_importmap() do
     Mix.Project.get().importmap()
     |> importmap_json()

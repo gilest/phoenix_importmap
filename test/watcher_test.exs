@@ -1,4 +1,4 @@
-defmodule PhoenixImportmapWatcherTest do
+defmodule WatcherTest do
   use ExUnit.Case, async: false
 
   @example_importmap %{
