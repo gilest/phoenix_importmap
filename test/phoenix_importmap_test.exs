@@ -5,11 +5,11 @@ defmodule PhoenixImportmapTest do
   @moduletag :tmp_dir
 
   @example_importmap %{
-    app: "/assets/js/app.js"
+    app: "/test/fixtures/js/app.js"
   }
 
   @example_missing_file_importmap %{
-    app: "/assets/js/missing.js"
+    app: "/test/fixtures/js/missing.js"
   }
 
   setup %{tmp_dir: tmp_dir} do
@@ -48,8 +48,8 @@ defmodule PhoenixImportmapTest do
 
   test "filter" do
     assert PhoenixImportmap.filter(
-             %{app: "/assets/js/app.js", other: "/nonesense"},
-             "/assets/js/app.js"
+             %{app: "/test/fixtures/js/app.js", other: "/nonesense"},
+             "/test/fixtures/js/app.js"
            ) == @example_importmap
   end
 end

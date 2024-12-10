@@ -11,6 +11,10 @@ defmodule PhoenixImportmap.Asset do
     copy_destination_path() <> "/" <> filename(full_path)
   end
 
+  def dest_path("/test/fixtures" <> _ = full_path) do
+    copy_destination_path() <> "/" <> filename(full_path)
+  end
+
   def public_path(full_path) do
     full_path
     |> dest_path()
