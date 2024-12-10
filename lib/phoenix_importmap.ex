@@ -63,11 +63,11 @@ defmodule PhoenixImportmap do
   def dest_path_for_asset("https://" <> _), do: nil
 
   def dest_path_for_asset("/assets" <> _ = full_path) do
-    "#{copy_destination_path()}/#{filename(full_path)}"
+    copy_destination_path() <> "/" <> filename(full_path)
   end
 
   def dest_path_for_asset("/deps" <> _ = full_path) do
-    "#{copy_destination_path()}/#{filename(full_path)}"
+    copy_destination_path() <> "/" <> filename(full_path)
   end
 
   def public_path_for_asset(asset_path) do
@@ -84,7 +84,7 @@ defmodule PhoenixImportmap do
 
   defp filename(full_path) do
     String.split(full_path, "/")
-    |> Enum.take(-1)
+    |> Enum.at(-1)
   end
 
   defp application_importmap() do
