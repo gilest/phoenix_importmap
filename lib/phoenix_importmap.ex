@@ -23,7 +23,7 @@ defmodule PhoenixImportmap do
     importmap
     |> Map.values()
     |> Enum.map(fn source_path ->
-      full_source_path = "#{File.cwd!()}#{source_path}"
+      full_source_path = File.cwd!() <> source_path
       dest_path = dest_path_for_asset(source_path)
       maybe_copy_asset(full_source_path, dest_path)
     end)
