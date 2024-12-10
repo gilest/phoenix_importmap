@@ -6,6 +6,6 @@ defmodule WatcherTest do
   }
 
   test "file watch" do
-    {:ok, _pid} = PhoenixImportmap.watch(@example_importmap)
+    {:ok, _pid} = PhoenixImportmap.watch(@example_importmap, ~w(/assets))
   end
 end

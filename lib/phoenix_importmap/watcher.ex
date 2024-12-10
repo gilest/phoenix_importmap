@@ -1,14 +1,14 @@
 defmodule PhoenixImportmap.Watcher do
   use GenServer
 
-  def start_link(importmap) do
-    GenServer.start_link(__MODULE__, importmap)
+  def start_link(%{importmap: importmap, watch_dirs: watch_dirs}) do
+    GenServer.start_link(__MODULE__, %{importmap: importmap, watch_dirs: watch_dirs})
   end
 
-  def init(importmap) do
+  def init(%{importmap: importmap, watch_dirs: watch_dirs}) do
     {:ok, _pid} =
       FileSystem.start_link(
-        dirs: [File.cwd!() <> "/assets"],
+        dirs: Enum.map(watch_dirs, &full_path/1),
         name: :phoenix_importmap_file_monitor
       )
 
@@ -34,5 +34,9 @@ defmodule PhoenixImportmap.Watcher do
   defp relative_path(path) do
     path
     |> String.replace(File.cwd!(), "")
+  end
+
+  defp full_path(path) do
+    File.cwd!() <> path
   end
 end

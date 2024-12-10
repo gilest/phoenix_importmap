@@ -3,20 +3,20 @@ defmodule PhoenixImportmap do
   Documentation for `PhoenixImportmap`.
   """
 
-  def copy_and_watch() do
-    application_importmap()
-    |> watch()
-  end
-
   def importmap() do
     application_importmap()
     |> json()
   end
 
-  def watch(importmap = %{}) do
+  def copy_and_watch(watch_dirs) do
+    application_importmap()
+    |> watch(watch_dirs)
+  end
+
+  def watch(importmap = %{}, watch_dirs) do
     :ok = copy(importmap)
 
-    PhoenixImportmap.Watcher.start_link(importmap)
+    PhoenixImportmap.Watcher.start_link(%{importmap: importmap, watch_dirs: watch_dirs})
   end
 
   def copy(importmap = %{}) do
