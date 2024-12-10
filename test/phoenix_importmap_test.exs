@@ -3,7 +3,7 @@ defmodule PhoenixImportmapTest do
   doctest PhoenixImportmap
 
   @example_importmap %{
-    app: "/assets/js/app.js",
+    app: "/assets/js/app.js"
   }
 
   @example_missing_file_importmap %{

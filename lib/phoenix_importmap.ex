@@ -6,6 +6,12 @@ defmodule PhoenixImportmap do
   @copy_destination_path "/priv/static/assets"
   @public_asset_path_prefix "/priv/static"
 
+  def watch(importmap = %{}) do
+    :ok = copy(importmap)
+
+    PhoenixImportmap.Watcher.start_link(importmap)
+  end
+
   def copy(importmap = %{}) do
     importmap
     |> Map.values()

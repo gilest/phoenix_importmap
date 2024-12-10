@@ -21,6 +21,7 @@ defmodule PhoenixImportmap.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:file_system, "~> 1.0"},
       {:jason, "~> 1.4.4"}
     ]
   end
