@@ -3,6 +3,16 @@ defmodule PhoenixImportmap do
   Documentation for `PhoenixImportmap`.
   """
 
+  def copy_and_watch() do
+    application_importmap()
+    |> watch()
+  end
+
+  def importmap() do
+    application_importmap()
+    |> importmap_json()
+  end
+
   def watch(importmap = %{}) do
     :ok = copy(importmap)
 
@@ -26,11 +36,6 @@ defmodule PhoenixImportmap do
     |> Enum.reduce(%{}, fn {key, path}, acc ->
       if file_path == path, do: Map.put(acc, key, path), else: acc
     end)
-  end
-
-  def project_importmap() do
-    Mix.Project.get().importmap()
-    |> importmap_json()
   end
 
   def importmap_json(importmap = %{}) do
@@ -75,6 +80,10 @@ defmodule PhoenixImportmap do
   defp filename(full_path) do
     String.split(full_path, "/")
     |> Enum.take(-1)
+  end
+
+  defp application_importmap() do
+    Application.fetch_env!(:phoenix_importmap, :importmap)
   end
 
   defp copy_destination_path() do
