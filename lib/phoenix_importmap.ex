@@ -10,7 +10,7 @@ defmodule PhoenixImportmap do
 
   def importmap() do
     application_importmap()
-    |> importmap_json()
+    |> json()
   end
 
   def watch(importmap = %{}) do
@@ -38,7 +38,13 @@ defmodule PhoenixImportmap do
     end)
   end
 
-  def importmap_json(importmap = %{}) do
+  def json(importmap = %{}) do
+    importmap
+    |> prepare()
+    |> Jason.encode!()
+  end
+
+  defp prepare(importmap = %{}) do
     %{
       imports:
         importmap
@@ -50,7 +56,6 @@ defmodule PhoenixImportmap do
           )
         end)
     }
-    |> Jason.encode!()
   end
 
   def dest_path_for_asset("//:" <> _), do: nil

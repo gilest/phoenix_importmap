@@ -28,7 +28,7 @@ defmodule PhoenixImportmapTest do
   end
 
   test "importmap_json" do
-    assert PhoenixImportmap.importmap_json(@example_importmap) ==
+    assert PhoenixImportmap.json(@example_importmap) ==
              "{\"imports\":{\"app\":\"/assets/app.js\"}}"
   end
 
