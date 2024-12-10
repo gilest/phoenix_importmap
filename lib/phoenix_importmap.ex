@@ -41,7 +41,7 @@ defmodule PhoenixImportmap do
           Map.put(
             acc,
             name,
-            dest_path_for_asset(path) |> String.replace(public_asset_path_prefix(), "")
+            dest_path_for_asset(path) |> public_path_for_asset()
           )
         end)
     }
@@ -58,6 +58,11 @@ defmodule PhoenixImportmap do
 
   def dest_path_for_asset("/deps" <> _ = full_path) do
     "#{copy_destination_path()}/#{filename(full_path)}"
+  end
+
+  def public_path_for_asset(asset_path) do
+    asset_path
+    |> String.replace(public_asset_path_prefix(), "")
   end
 
   defp maybe_copy_asset(_source, nil), do: {:ok, 0}
