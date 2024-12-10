@@ -3,15 +3,7 @@ defmodule PhoenixImportmap.Asset do
   def dest_path("http://" <> _), do: nil
   def dest_path("https://" <> _), do: nil
 
-  def dest_path("/assets" <> _ = full_path) do
-    copy_destination_path() <> "/" <> filename(full_path)
-  end
-
-  def dest_path("/deps" <> _ = full_path) do
-    copy_destination_path() <> "/" <> filename(full_path)
-  end
-
-  def dest_path("/test/fixtures" <> _ = full_path) do
+  def dest_path(full_path) do
     copy_destination_path() <> "/" <> filename(full_path)
   end
 
