@@ -2,6 +2,8 @@ defmodule PhoenixImportmapTest do
   use ExUnit.Case
   doctest PhoenixImportmap
 
+  @moduletag :tmp_dir
+
   @example_importmap %{
     app: "/assets/js/app.js"
   }
@@ -10,13 +12,18 @@ defmodule PhoenixImportmapTest do
     app: "/assets/js/missing.js"
   }
 
-  setup do
-    File.mkdir_p!(File.cwd!() <> "/priv/static/assets")
+  setup %{tmp_dir: tmp_dir} do
+    relative_tmp_dir = String.replace(tmp_dir, File.cwd!(), "")
 
-    on_exit(fn ->
-      File.rm_rf!(File.cwd!() <> "/priv/static/assets")
-      File.mkdir_p!(File.cwd!() <> "/priv/static/assets")
-    end)
+    Application.put_env(
+      :phoenix_importmap,
+      :copy_destination_path,
+      relative_tmp_dir <> "/assets"
+    )
+
+    Application.put_env(:phoenix_importmap, :public_asset_path_prefix, relative_tmp_dir)
+
+    File.mkdir_p!(File.cwd!() <> relative_tmp_dir <> "/assets")
   end
 
   test "copy succeeds" do
