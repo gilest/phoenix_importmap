@@ -3,9 +3,6 @@ defmodule PhoenixImportmap do
   Documentation for `PhoenixImportmap`.
   """
 
-  @copy_destination_path "/priv/static/assets"
-  @public_asset_path_prefix "/priv/static"
-
   def watch(importmap = %{}) do
     :ok = copy(importmap)
 
@@ -44,7 +41,7 @@ defmodule PhoenixImportmap do
           Map.put(
             acc,
             name,
-            dest_path_for_asset(path) |> String.replace(@public_asset_path_prefix, "")
+            dest_path_for_asset(path) |> String.replace(public_asset_path_prefix(), "")
           )
         end)
     }
@@ -56,11 +53,11 @@ defmodule PhoenixImportmap do
   def dest_path_for_asset("https://" <> _), do: nil
 
   def dest_path_for_asset("/assets" <> _ = full_path) do
-    "#{@copy_destination_path}/#{filename(full_path)}"
+    "#{copy_destination_path()}/#{filename(full_path)}"
   end
 
   def dest_path_for_asset("/deps" <> _ = full_path) do
-    "#{@copy_destination_path}/#{filename(full_path)}"
+    "#{copy_destination_path()}/#{filename(full_path)}"
   end
 
   defp maybe_copy_asset(_source, nil), do: {:ok, 0}
@@ -73,5 +70,13 @@ defmodule PhoenixImportmap do
   defp filename(full_path) do
     String.split(full_path, "/")
     |> Enum.take(-1)
+  end
+
+  defp copy_destination_path() do
+    Application.get_env(:phoenix_importmap, :copy_destination_path, "/priv/static/assets")
+  end
+
+  defp public_asset_path_prefix() do
+    Application.get_env(:phoenix_importmap, :public_asset_path_prefix, "/priv/static")
   end
 end
