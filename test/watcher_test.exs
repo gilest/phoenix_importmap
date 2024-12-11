@@ -2,7 +2,8 @@ defmodule WatcherTest do
   use ExUnit.Case, async: false
 
   @example_importmap %{
-    app: "/test/fixtures/js/app.js"
+    app: "/test/fixtures/js/app.js",
+    remote: "https://cdn.es6/package.js"
   }
 
   test "file watch" do

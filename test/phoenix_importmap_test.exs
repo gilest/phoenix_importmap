@@ -8,17 +8,12 @@ defmodule PhoenixImportmapTest do
   @moduletag :tmp_dir
 
   @example_importmap %{
-    app: "/test/fixtures/js/app.js"
-  }
-
-  @example_missing_file_importmap %{
-    app: "/test/fixtures/js/missing.js"
+    app: "/test/fixtures/js/app.js",
+    remote: "https://cdn.es6/package.js"
   }
 
   setup %{tmp_dir: tmp_dir} do
-    relative_tmp_dir =
-      tmp_dir
-      |> Util.relative_path()
+    relative_tmp_dir = Util.relative_path(tmp_dir)
 
     Application.put_env(
       :phoenix_importmap,
@@ -27,7 +22,6 @@ defmodule PhoenixImportmapTest do
     )
 
     Application.put_env(:phoenix_importmap, :public_asset_path_prefix, relative_tmp_dir)
-
     File.mkdir_p!(tmp_dir <> "/assets")
   end
 
@@ -42,19 +36,21 @@ defmodule PhoenixImportmapTest do
 
   test "copy fails on missing file" do
     assert_raise(File.CopyError, fn ->
-      PhoenixImportmap.copy(@example_missing_file_importmap)
+      PhoenixImportmap.copy(%{
+        app: "/test/fixtures/js/missing.js"
+      })
     end)
   end
 
   test "json" do
     assert PhoenixImportmap.json(@example_importmap) ==
-             "{\"imports\":{\"app\":\"/assets/app.js\"}}"
+             "{\"imports\":{\"remote\":\"https://cdn.es6/package.js\",\"app\":\"/assets/app.js\"}}"
   end
 
   test "filter" do
     assert PhoenixImportmap.filter(
              %{app: "/test/fixtures/js/app.js", other: "/nonesense"},
              "/test/fixtures/js/app.js"
-           ) == @example_importmap
+           ) == %{app: "/test/fixtures/js/app.js"}
   end
 end

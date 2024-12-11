@@ -9,6 +9,10 @@ defmodule PhoenixImportmap.Asset do
     copy_destination_path() <> "/" <> filename(full_path)
   end
 
+  def public_path("//:" <> _ = full_path), do: full_path
+  def public_path("http://" <> _ = full_path), do: full_path
+  def public_path("https://" <> _ = full_path), do: full_path
+
   def public_path(full_path) do
     full_path
     |> dest_path()
