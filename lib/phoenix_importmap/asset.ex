@@ -1,4 +1,6 @@
 defmodule PhoenixImportmap.Asset do
+  alias PhoenixImportmap.Util
+
   def dest_path("//:" <> _), do: nil
   def dest_path("http://" <> _), do: nil
   def dest_path("https://" <> _), do: nil
@@ -16,8 +18,8 @@ defmodule PhoenixImportmap.Asset do
   def maybe_copy(_source, nil), do: {:ok, 0}
 
   def maybe_copy(source, dest) do
-    (File.cwd!() <> source)
-    |> File.copy!(File.cwd!() <> dest)
+    Util.full_path(source)
+    |> File.copy!(Util.full_path(dest))
   end
 
   defp filename(full_path) do

@@ -1,5 +1,8 @@
 defmodule PhoenixImportmapTest do
   use ExUnit.Case
+
+  alias PhoenixImportmap.Util
+
   doctest PhoenixImportmap
 
   @moduletag :tmp_dir
@@ -13,7 +16,9 @@ defmodule PhoenixImportmapTest do
   }
 
   setup %{tmp_dir: tmp_dir} do
-    relative_tmp_dir = String.replace(tmp_dir, File.cwd!(), "")
+    relative_tmp_dir =
+      tmp_dir
+      |> Util.relative_path()
 
     Application.put_env(
       :phoenix_importmap,
@@ -23,12 +28,12 @@ defmodule PhoenixImportmapTest do
 
     Application.put_env(:phoenix_importmap, :public_asset_path_prefix, relative_tmp_dir)
 
-    File.mkdir_p!(File.cwd!() <> relative_tmp_dir <> "/assets")
+    File.mkdir_p!(tmp_dir <> "/assets")
   end
 
   test "copy succeeds" do
     %{app: app_js_path} = @example_importmap
-    app_js_full_path = File.cwd!() <> PhoenixImportmap.Asset.dest_path(app_js_path)
+    app_js_full_path = Util.full_path(PhoenixImportmap.Asset.dest_path(app_js_path))
 
     assert !File.exists?(app_js_full_path)
     assert PhoenixImportmap.copy(@example_importmap) == :ok
