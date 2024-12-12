@@ -4,21 +4,21 @@ defmodule PhoenixImportmap do
 
   With this approach you'll ship many small JavaScript files instead of one big JavaScript file.
 
-  Import maps are (supported natively)[https://caniuse.com/?search=importmap] in all major, modern browsers.
+  Import maps are [supported natively](https://caniuse.com/?search=importmap) in all major, modern browsers.
 
   <!-- ## Installation -->
 
   ## Importmap configuration
 
-  * `:importmap` - An Elixir Map representing your assets. This is used to copy and watch files, and resolve public paths in `PhoenixImportmap.importmap()`
+  - `:importmap` - An Elixir Map representing your assets. This is used to copy and watch files, and resolve public paths in `PhoenixImportmap.importmap()`
 
   ## Asset path configuration
 
   The defaults should  work out of the box with a conventional Phoenix application. There are two global configuration options available.
 
-    * `:copy_destination_path` - Where your mapped assets will be copied to. Defaults to `/priv/static/assets` which is the default path for to serve assets from.
+  - `:copy_destination_path` - Where your mapped assets will be copied to. Defaults to `/priv/static/assets` which is the default path for to serve assets from.
 
-    * `:public_asset_path_prefix` - The public path from which your assets are served. Defaults to `/priv/static` which is the default path for `Plug.Static` to serve `/` at.
+  - `:public_asset_path_prefix` - The public path from which your assets are served. Defaults to `/priv/static` which is the default path for `Plug.Static` to serve `/` at.
   """
 
   alias PhoenixImportmap.Asset
