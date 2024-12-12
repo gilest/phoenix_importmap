@@ -1,4 +1,10 @@
 defmodule PhoenixImportmap.Watcher do
+  @moduledoc """
+  A child-process which watches `watch_dirs` for changed files, and (if they are present in the project importmap) copies them to `:copy_destination_path`.
+
+  Public entrypoint is `PhoenixImportmap.copy_and_watch/1`.
+  """
+
   use GenServer
 
   alias PhoenixImportmap.Util

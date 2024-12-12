@@ -1,33 +1,47 @@
 defmodule PhoenixImportmap.Asset do
+  @moduledoc """
+  Internal functions for working with asset paths.
+  """
+
   alias PhoenixImportmap.Util
 
+  @doc """
+  Determine the copy destination path for a given source path.
+  """
   def dest_path("//:" <> _), do: nil
   def dest_path("http://" <> _), do: nil
   def dest_path("https://" <> _), do: nil
 
-  def dest_path(full_path) do
-    copy_destination_path() <> "/" <> filename(full_path)
+  def dest_path(source_path) do
+    copy_destination_path() <> "/" <> filename(source_path)
   end
 
-  def public_path("//:" <> _ = full_path), do: full_path
-  def public_path("http://" <> _ = full_path), do: full_path
-  def public_path("https://" <> _ = full_path), do: full_path
+  @doc """
+  Determine the public  path for a given source path. This is what will appear
+  in the output of `PhoenixImportmap.importmap()`.
+  """
+  def public_path("//:" <> _ = source_path), do: source_path
+  def public_path("http://" <> _ = source_path), do: source_path
+  def public_path("https://" <> _ = source_path), do: source_path
 
-  def public_path(full_path) do
-    full_path
+  def public_path(source_path) do
+    source_path
     |> dest_path()
     |> String.replace(public_path_prefix(), "")
   end
 
-  def maybe_copy(_source, nil), do: {:ok, 0}
+  @doc """
+  Copy an asset from its `source_path` to its `source_path`.
+  """
+  def maybe_copy(_source_path, nil), do: {:ok, 0}
 
-  def maybe_copy(source, dest) do
-    Util.full_path(source)
-    |> File.copy!(Util.full_path(dest))
+  def maybe_copy(source_path, dest_path) do
+    Util.full_path(source_path)
+    |> File.copy!(Util.full_path(dest_path))
   end
 
-  defp filename(full_path) do
-    String.split(full_path, "/")
+  defp filename(path) do
+    String.split(path, "/")
     |> Enum.at(-1)
   end
 

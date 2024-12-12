@@ -33,6 +33,13 @@ defmodule PhoenixImportmap do
 
   @doc """
   Does an initial copy of assets, then starts a child process to watch for asset changes.
+
+  For use with Phoenix watchers.
+
+  ## Example
+  watchers: [
+    assets: {PhoenixImportmap, :copy_and_watch, [~w(/assets)]},
+  ]
   """
   def copy_and_watch(watch_dirs) do
     application_importmap()
