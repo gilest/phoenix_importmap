@@ -9,7 +9,14 @@ defmodule PhoenixImportmap.MixProject do
       package: package(),
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      name: "Phoenix Importmap",
+      source_url: "https://github.com/gilest/phoenix_importmap",
+      docs: [
+        main: "PhoenixImportmap"
+      ]
     ]
   end
 
