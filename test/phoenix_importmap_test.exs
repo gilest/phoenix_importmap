@@ -1,5 +1,5 @@
 defmodule PhoenixImportmapTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias PhoenixImportmap.Util
 
