@@ -5,6 +5,8 @@ defmodule PhoenixImportmap.MixProject do
     [
       app: :phoenix_importmap,
       version: "0.1.0",
+      description: description(),
+      package: package(),
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -23,6 +25,18 @@ defmodule PhoenixImportmap.MixProject do
     [
       {:file_system, "~> 1.0"},
       {:jason, "~> 1.4.4"}
+    ]
+  end
+
+  defp description() do
+    "Use ESM with importmap to efficiently serve JavaScript without transpiling or bundling."
+  end
+
+  defp package() do
+    [
+      licenses: ["MIT"],
+      maintainers: ["Giles Thompson"],
+      links: %{"GitHub" => "https://github.com/gilest/phoenix_importmap"}
     ]
   end
 end
