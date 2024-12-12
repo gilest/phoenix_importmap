@@ -6,11 +6,64 @@ defmodule PhoenixImportmap do
 
   Import maps are [supported natively](https://caniuse.com/?search=importmap) in all major, modern browsers.
 
-  <!-- ## Installation -->
+  ## Installation
+
+  The package can be installed by adding `phoenix_importmap` to your list of dependencies in mix.exs:
+
+  ```elixir
+  def deps do
+    [
+      {:phoenix_importmap, "~> 0.1.0"}
+    ]
+  end
+  ```
+
+  If you are using the esbuild package you may also remove it, along with its configuration.
+
+  In `config/dev.exs` add the asset watcher to your `Endpoint` configuration:
+
+  ```elixir
+  watchers: [
+    assets: {PhoenixImportmap, :copy_and_watch, [~w(/assets)]},
+  ]
+  ```
+
+  In `config/config.exs` add an importmap. The following is a good start for a conventional Phoenix app:
+
+  ```elixir
+  config :phoenix_importmap, :importmap, %{
+    app: "/assets/js/app.js",
+    topbar: "/assets/vendor/topbar.js",
+    phoenix_html: "/deps/phoenix_html/priv/static/phoenix_html.js",
+    phoenix: "/deps/phoenix/priv/static/phoenix.mjs",
+    phoenix_live_view: "/deps/phoenix_live_view/priv/static/phoenix_live_view.esm.js"
+  }
+  ```
+
+  If you are using topbar, replace the relative topbar import in `assets/app/app.js` with a module specifier. This asset will be resolved by our importmap:
+
+  ```js
+  import topbar from "topbar"
+  ```
+
+  You'll also need to replace the contents of `assets/vendor/topbar.js` with a wrapped version that supports ESM, like this [from jsDelivr](https://cdn.jsdelivr.net/npm/topbar@2.0.0/topbar.js/+esm).
+
+  Finally, in `lib/<project>/components/layouts/root.html.heex` replace the `app.js` `<script>` tag with:
+
+  ```html
+  <script type="importmap">
+    <%= raw PhoenixImportmap.importmap() %>
+  </script>
+  <script type="module">
+    import "app";
+  </script>
+  ```
+
+  The [phoenix_importmap_example repository](https://github.com/gilest/phoenix_importmap_example) also demonstrates configuring a newly-generated Phoenix app.
 
   ## Importmap configuration
 
-  - `:importmap` - An Elixir Map representing your assets. This is used to copy and watch files, and resolve public paths in `PhoenixImportmap.importmap()`
+  - `:importmap` - Map representing your assets. This is used to copy and watch files, and resolve public paths in `PhoenixImportmap.importmap()`
 
   ## Asset path configuration
 
@@ -34,12 +87,7 @@ defmodule PhoenixImportmap do
   @doc """
   Does an initial copy of assets, then starts a child process to watch for asset changes.
 
-  For use with Phoenix watchers.
-
-  ## Example
-  watchers: [
-    assets: {PhoenixImportmap, :copy_and_watch, [~w(/assets)]},
-  ]
+  For use with [Phoenix.Endpoint](https://hexdocs.pm/phoenix/Phoenix.Endpoint.html) watchers.
   """
   def copy_and_watch(watch_dirs) do
     application_importmap()
