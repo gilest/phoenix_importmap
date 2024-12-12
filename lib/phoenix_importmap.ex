@@ -8,7 +8,11 @@ defmodule PhoenixImportmap do
 
   <!-- ## Installation -->
 
-  ## Configuration
+  ## Importmap configuration
+
+  * `:importmap` - An Elixir Map representing your assets. This is used to copy and watch files, and resolve public paths in `PhoenixImportmap.importmap()`
+
+  ## Asset path configuration
 
   The defaults should  work out of the box with a conventional Phoenix application. There are two global configuration options available.
 
@@ -19,22 +23,30 @@ defmodule PhoenixImportmap do
 
   alias PhoenixImportmap.Asset
 
+  @doc """
+  Returns a JSON-formatted importmap based on your application configuration.
+  """
   def importmap() do
     application_importmap()
     |> json()
   end
 
+  @doc """
+  Does an initial copy of assets, then starts a child process to watch for asset changes.
+  """
   def copy_and_watch(watch_dirs) do
     application_importmap()
     |> watch(watch_dirs)
   end
 
+  @doc false
   def watch(importmap = %{}, watch_dirs) do
     :ok = copy(importmap)
 
     PhoenixImportmap.Watcher.start_link(%{importmap: importmap, watch_dirs: watch_dirs})
   end
 
+  @doc false
   def copy(importmap = %{}) do
     importmap
     |> Map.values()
@@ -45,6 +57,7 @@ defmodule PhoenixImportmap do
     :ok
   end
 
+  @doc false
   def filter(importmap = %{}, asset_path) do
     importmap
     |> Enum.reduce(%{}, fn {specifier, path}, acc ->
@@ -52,12 +65,14 @@ defmodule PhoenixImportmap do
     end)
   end
 
+  @doc false
   def json(importmap = %{}) do
     importmap
     |> prepare()
     |> Jason.encode!()
   end
 
+  @doc false
   defp prepare(importmap = %{}) do
     %{
       imports:
