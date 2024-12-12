@@ -31,7 +31,7 @@ defmodule PhoenixImportmap.Asset do
   end
 
   @doc """
-  Copy an asset from its `source_path` to its `source_path`.
+  Copy an asset from its `source_path` to its `dest_path`.
   """
   def maybe_copy(_source_path, nil), do: {:ok, 0}
 
