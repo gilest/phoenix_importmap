@@ -25,7 +25,7 @@ defmodule PhoenixImportmap.Watcher do
   end
 
   def handle_info(
-        {:file_event, _pid, {changed_asset_path, [:modified, :closed]}} = _event,
+        {:file_event, _pid, {changed_asset_path, _events}} = _event,
         %{importmap: importmap} = state
       ) do
     importmap
