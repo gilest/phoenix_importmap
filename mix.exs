@@ -24,7 +24,8 @@ defmodule PhoenixImportmap.MixProject do
   defp deps do
     [
       {:file_system, "~> 1.0"},
-      {:jason, "~> 1.4.4"}
+      {:jason, "~> 1.4.4"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
