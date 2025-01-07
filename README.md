@@ -15,7 +15,7 @@ The package can be installed by adding `phoenix_importmap` to your list of depen
 ```elixir
 def deps do
   [
-    {:phoenix_importmap, "~> 0.1.0"}
+    {:phoenix_importmap, "~> 0.2.0"}
   ]
 end
 ```
