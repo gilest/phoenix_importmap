@@ -50,7 +50,7 @@ import topbar from 'topbar';
 
 You'll also need to replace the contents of `assets/vendor/topbar.js` with a wrapped version that supports ESM, like this [from jsDelivr](https://cdn.jsdelivr.net/npm/topbar@2.0.0/topbar.js/+esm).
 
-Finally, in `lib/<project>/components/layouts/root.html.heex` replace the `app.js` `<script>` tag with:
+In `lib/<project>/components/layouts/root.html.heex` replace the `app.js` `<script>` tag with:
 
 ```html
 <script type="importmap">
@@ -59,6 +59,14 @@ Finally, in `lib/<project>/components/layouts/root.html.heex` replace the `app.j
 <script type="module">
   import 'app';
 </script>
+```
+
+Finally, in `mix.exs` update your assets aliases to replace esbuild with this library:
+
+```elixir
+  "assets.setup": ["tailwind.install --if-missing"],
+  "assets.build": ["tailwind default", "phoenix_importmap.copy"],
+  "assets.deploy": ["tailwind default --minify", "phoenix_importmap.copy", "phx.digest"]
 ```
 
 The [phoenix_importmap_example repository](https://github.com/gilest/phoenix_importmap_example) demonstrates configuring a newly-generated Phoenix app.
