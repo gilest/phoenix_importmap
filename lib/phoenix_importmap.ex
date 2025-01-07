@@ -74,14 +74,27 @@ defmodule PhoenixImportmap do
   - `:public_asset_path_prefix` - The public path from which your assets are served. Defaults to `/priv/static` which is the default path for `Plug.Static` to serve `/` at.
   """
 
-  alias PhoenixImportmap.Asset
+  alias PhoenixImportmap.Importmap
 
   @doc """
   Returns a JSON-formatted importmap based on your application configuration.
+
+  Asset paths will have `:public_asset_path_prefix` stripped out.
   """
   def importmap() do
     application_importmap()
-    |> json()
+    |> Importmap.prepare()
+    |> Importmap.json()
+  end
+
+  @doc """
+  Copies mapped assets to `:copy_destination_path`, which defaults to `/priv/static/assets`.
+
+  For use in `phoenix_importmap.copy` mix task.
+  """
+  def copy() do
+    application_importmap()
+    |> Importmap.copy()
   end
 
   @doc """
@@ -90,56 +103,10 @@ defmodule PhoenixImportmap do
   For use with [Phoenix.Endpoint](https://hexdocs.pm/phoenix/Phoenix.Endpoint.html) watchers.
   """
   def copy_and_watch(watch_dirs) do
-    application_importmap()
-    |> watch(watch_dirs)
-  end
+    importmap = application_importmap()
 
-  @doc false
-  def watch(importmap = %{}, watch_dirs) do
-    :ok = copy(importmap)
-
+    :ok = Importmap.copy(importmap)
     PhoenixImportmap.Watcher.start_link(%{importmap: importmap, watch_dirs: watch_dirs})
-  end
-
-  @doc false
-  def copy(importmap = %{}) do
-    importmap
-    |> Map.values()
-    |> Enum.map(fn source_path ->
-      Asset.maybe_copy(source_path, Asset.dest_path(source_path))
-    end)
-
-    :ok
-  end
-
-  @doc false
-  def filter(importmap = %{}, asset_path) do
-    importmap
-    |> Enum.reduce(%{}, fn {specifier, path}, acc ->
-      if asset_path == path, do: Map.put(acc, specifier, path), else: acc
-    end)
-  end
-
-  @doc false
-  def json(importmap = %{}) do
-    importmap
-    |> prepare()
-    |> Jason.encode!()
-  end
-
-  @doc false
-  defp prepare(importmap = %{}) do
-    %{
-      imports:
-        importmap
-        |> Enum.reduce(%{}, fn {specifier, path}, acc ->
-          Map.put(
-            acc,
-            specifier,
-            Asset.public_path(path)
-          )
-        end)
-    }
   end
 
   defp application_importmap() do

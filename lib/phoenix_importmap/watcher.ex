@@ -29,8 +29,8 @@ defmodule PhoenixImportmap.Watcher do
         %{importmap: importmap} = state
       ) do
     importmap
-    |> PhoenixImportmap.filter(Util.relative_path(changed_asset_path))
-    |> PhoenixImportmap.copy()
+    |> PhoenixImportmap.Importmap.filter(Util.relative_path(changed_asset_path))
+    |> PhoenixImportmap.Importmap.copy()
 
     {:noreply, state}
   end
