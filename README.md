@@ -63,7 +63,7 @@ In `lib/<project>/components/layouts/root.html.heex` replace the `app.js` `<scri
 
 Finally, in `mix.exs` update your assets aliases to replace esbuild with this library:
 
-```elixir
+```
   "assets.setup": ["tailwind.install --if-missing"],
   "assets.build": ["tailwind default", "phoenix_importmap.copy"],
   "assets.deploy": ["tailwind default --minify", "phoenix_importmap.copy", "phx.digest"]
