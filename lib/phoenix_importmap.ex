@@ -48,14 +48,16 @@ defmodule PhoenixImportmap do
 
   You'll also need to replace the contents of `assets/vendor/topbar.js` with a wrapped version that supports ESM, like this [from jsDelivr](https://cdn.jsdelivr.net/npm/topbar@2.0.0/topbar.js/+esm).
 
-  In `lib/<project>/components/layouts/root.html.heex` replace the `app.js` `<script>` tag with:
+  In `lib/<project>/components/layouts/root.html.heex` replace the `app.js` `<script>` tag.
+
+  Be sure to use your own project's module name in place of `YourAppWeb`.
 
   ```html
   <script type="importmap">
-    <%= raw PhoenixImportmap.importmap() %>
+  <%= raw PhoenixImportmap.importmap(YourAppWeb.Endpoint) %>
   </script>
   <script type="module">
-    import "app";
+  import 'app';
   </script>
   ```
 
@@ -87,11 +89,11 @@ defmodule PhoenixImportmap do
   @doc """
   Returns a JSON-formatted importmap based on your application configuration.
 
-  Asset paths will have `:public_asset_path_prefix` stripped out.
+  Requires `YourAppWeb.Endpoint` to be passed in for path generation.
   """
-  def importmap() do
+  def importmap(endpoint) do
     application_importmap()
-    |> Importmap.prepare()
+    |> Importmap.prepare(endpoint)
     |> Importmap.json()
   end
 

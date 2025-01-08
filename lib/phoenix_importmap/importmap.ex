@@ -39,10 +39,13 @@ defmodule PhoenixImportmap.Importmap do
   end
 
   @doc """
-  Strips `:public_asset_path_prefix` from asset paths so they may be resolved
+  Maps local paths from the configured importmap to the location they are being served from.
+
+  - Strips `:public_asset_path_prefix` from asset paths so they may be resolved
   by `Plug.Static`.
+  - Uses `YourAppWeb.Endpoint.static_path/1` to determine whether to use digest URLs.
   """
-  def prepare(importmap = %{}) do
+  def prepare(importmap = %{}, endpoint) do
     %{
       imports:
         importmap
@@ -50,7 +53,7 @@ defmodule PhoenixImportmap.Importmap do
           Map.put(
             acc,
             specifier,
-            Asset.public_path(path)
+            Asset.public_path(path) |> endpoint.static_path()
           )
         end)
     }

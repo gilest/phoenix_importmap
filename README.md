@@ -50,11 +50,13 @@ import topbar from 'topbar';
 
 You'll also need to replace the contents of `assets/vendor/topbar.js` with a wrapped version that supports ESM, like this [from jsDelivr](https://cdn.jsdelivr.net/npm/topbar@2.0.0/topbar.js/+esm).
 
-In `lib/<project>/components/layouts/root.html.heex` replace the `app.js` `<script>` tag with:
+In `lib/<project>/components/layouts/root.html.heex` replace the `app.js` `<script>` tag.
+
+Be sure to use your own project's module name in place of `YourAppWeb`.
 
 ```html
 <script type="importmap">
-  <%= raw PhoenixImportmap.importmap() %>
+  <%= raw PhoenixImportmap.importmap(YourAppWeb.Endpoint) %>
 </script>
 <script type="module">
   import 'app';

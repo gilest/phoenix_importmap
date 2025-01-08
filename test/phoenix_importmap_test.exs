@@ -7,6 +7,10 @@ defmodule PhoenixImportmapTest do
 
   @moduletag :tmp_dir
 
+  defmodule MockEndpoint do
+    def static_path(path), do: "#{path}?busted=t"
+  end
+
   setup %{tmp_dir: tmp_dir} do
     relative_tmp_dir = Util.relative_path(tmp_dir)
 
@@ -27,7 +31,7 @@ defmodule PhoenixImportmapTest do
   end
 
   test "importmap" do
-    assert PhoenixImportmap.importmap() ==
-             "{\"imports\":{\"remote\":\"https://cdn.es6/package.js\",\"app\":\"/assets/app.js\"}}"
+    assert PhoenixImportmap.importmap(MockEndpoint) ==
+             "{\"imports\":{\"remote\":\"https://cdn.es6/package.js?busted=t\",\"app\":\"/assets/app.js?busted=t\"}}"
   end
 end
