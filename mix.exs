@@ -4,7 +4,7 @@ defmodule PhoenixImportmap.MixProject do
   def project do
     [
       app: :phoenix_importmap,
-      version: "0.2.0",
+      version: "0.3.0",
       description: description(),
       package: package(),
       elixir: "~> 1.16",
