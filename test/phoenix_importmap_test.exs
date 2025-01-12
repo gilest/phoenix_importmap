@@ -31,7 +31,12 @@ defmodule PhoenixImportmapTest do
   end
 
   test "importmap" do
-    assert PhoenixImportmap.importmap(MockEndpoint) ==
+    html_escaped_string =
+      PhoenixImportmap.importmap(MockEndpoint)
+      |> Phoenix.HTML.html_escape()
+      |> Phoenix.HTML.safe_to_string()
+
+    assert html_escaped_string ==
              "{\"imports\":{\"remote\":\"https://cdn.es6/package.js?busted=t\",\"app\":\"/assets/app.js?busted=t\"}}"
   end
 end

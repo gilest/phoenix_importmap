@@ -32,6 +32,7 @@ defmodule PhoenixImportmap.MixProject do
     [
       {:file_system, "~> 1.0"},
       {:jason, "~> 1.4.4"},
+      {:phoenix_html, "~> 4.1"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
