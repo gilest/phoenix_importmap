@@ -87,7 +87,7 @@ defmodule PhoenixImportmap do
   alias PhoenixImportmap.Importmap
 
   @doc """
-  Returns a `t:PhoenixImportmap.Importmap` struct that implements the `Phoenix.HTML.Safe` protocol, allwoing safe interpolation in your template.
+  Returns a `t:PhoenixImportmap.Importmap` struct that implements the `Phoenix.HTML.Safe` protocol, allowing safe interpolation in your template.
 
   The resulting JSON-formatted importmap is based on your application configuration.
 
