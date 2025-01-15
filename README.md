@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/gilest/phoenix_importmap/actions/workflows/ci.yml/badge.svg)](https://github.com/gilest/phoenix_importmap/actions/workflows/ci.yml)
 
+<!-- MDOC !-->
+
 Use [ES/JS Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) with [importmap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) to efficiently serve JavaScript without transpiling or bundling.
 
 With this approach you'll ship many small JavaScript files instead of one big JavaScript file.
