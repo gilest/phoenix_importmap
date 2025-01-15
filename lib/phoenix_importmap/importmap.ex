@@ -5,6 +5,13 @@ defmodule PhoenixImportmap.Importmap do
 
   alias PhoenixImportmap.Asset
 
+  @derive Jason.Encoder
+  defstruct [:imports]
+
+  @type t() :: %__MODULE__{
+          imports: map()
+        }
+
   @doc """
   Copies importmap assets to `:copy_destination_path`.
   """
@@ -46,7 +53,7 @@ defmodule PhoenixImportmap.Importmap do
   - Uses `YourAppWeb.Endpoint.static_path/1` to determine whether to use digest URLs.
   """
   def prepare(importmap = %{}, endpoint) do
-    %{
+    %__MODULE__{
       imports:
         importmap
         |> Enum.reduce(%{}, fn {specifier, path}, acc ->
@@ -57,5 +64,11 @@ defmodule PhoenixImportmap.Importmap do
           )
         end)
     }
+  end
+
+  defimpl Phoenix.HTML.Safe do
+    def to_iodata(importmap) do
+      Jason.encode_to_iodata!(importmap)
+    end
   end
 end

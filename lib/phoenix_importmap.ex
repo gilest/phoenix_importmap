@@ -54,7 +54,7 @@ defmodule PhoenixImportmap do
 
   ```html
   <script type="importmap">
-  <%= raw PhoenixImportmap.importmap(YourAppWeb.Endpoint) %>
+  <%= PhoenixImportmap.importmap(YourAppWeb.Endpoint) %>
   </script>
   <script type="module">
   import 'app';
@@ -87,14 +87,15 @@ defmodule PhoenixImportmap do
   alias PhoenixImportmap.Importmap
 
   @doc """
-  Returns a JSON-formatted importmap based on your application configuration.
+  Returns a `t:PhoenixImportmap.Importmap` struct that implements the `Phoenix.HTML.Safe` protocol, allowing safe interpolation in your template.
+
+  The resulting JSON-formatted importmap is based on your application configuration.
 
   Requires `YourAppWeb.Endpoint` to be passed in for path generation.
   """
   def importmap(endpoint) do
     application_importmap()
     |> Importmap.prepare(endpoint)
-    |> Importmap.json()
   end
 
   @doc """

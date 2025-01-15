@@ -56,7 +56,7 @@ Be sure to use your own project's module name in place of `YourAppWeb`.
 
 ```html
 <script type="importmap">
-  <%= raw PhoenixImportmap.importmap(YourAppWeb.Endpoint) %>
+  <%= PhoenixImportmap.importmap(YourAppWeb.Endpoint) %>
 </script>
 <script type="module">
   import 'app';
