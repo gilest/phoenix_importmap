@@ -13,7 +13,7 @@ defmodule PhoenixImportmap do
   ```elixir
   def deps do
     [
-      {:phoenix_importmap, "~> 0.3.0"}
+      {:phoenix_importmap, "~> 0.4.0"}
     ]
   end
   ```
