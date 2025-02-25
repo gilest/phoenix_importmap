@@ -10,6 +10,14 @@ defmodule PhoenixImportmapImportmapTest do
     remote: "https://cdn.es6/package.js"
   }
 
+  @directory_importmap %{
+    "directory/": "/test/fixtures/directory/",
+  }
+
+  defmodule MockEndpoint do
+    def static_path(path), do: path
+  end
+
   setup %{tmp_dir: tmp_dir} do
     relative_tmp_dir = Util.relative_path(tmp_dir)
 
@@ -40,9 +48,9 @@ defmodule PhoenixImportmapImportmapTest do
     end)
   end
 
-  test "json" do
-    assert PhoenixImportmap.Importmap.json(@example_importmap) ==
-             "{\"remote\":\"https://cdn.es6/package.js\",\"app\":\"/test/fixtures/js/app.js\"}"
+  test "prepare" do
+    assert PhoenixImportmap.Importmap.prepare(@example_importmap, MockEndpoint) ==
+      %PhoenixImportmap.Importmap{imports: %{remote: "https://cdn.es6/package.js", app: "/assets/app.js"}}
   end
 
   test "filter" do
@@ -50,5 +58,10 @@ defmodule PhoenixImportmapImportmapTest do
              %{app: "/test/fixtures/js/app.js", other: "/nonesense"},
              "/test/fixtures/js/app.js"
            ) == %{app: "/test/fixtures/js/app.js"}
+  end
+
+  test "directory prepare" do
+    assert PhoenixImportmap.Importmap.prepare(@directory_importmap, MockEndpoint) ==
+      %PhoenixImportmap.Importmap{imports: %{"directory/child.js": "/assets/directory/child.js"}}
   end
 end
