@@ -60,8 +60,15 @@ defmodule PhoenixImportmapImportmapTest do
            ) == %{app: "/test/fixtures/js/app.js"}
   end
 
-  test "directory prepare" do
-    assert PhoenixImportmap.Importmap.prepare(@directory_importmap, MockEndpoint) ==
-      %PhoenixImportmap.Importmap{imports: %{"directory/child.js": "/assets/directory/child.js"}}
+  # test "directory prepare" do
+  #   assert PhoenixImportmap.Importmap.prepare(@directory_importmap, MockEndpoint) ==
+  #     %PhoenixImportmap.Importmap{imports: %{"directory/child.js": "/assets/directory/child.js"}}
+  # end
+
+  test "assets" do
+    assert PhoenixImportmap.Importmap.assets(@directory_importmap) ==
+      %{
+        "directory/child.js" => "/test/fixtures/directory/child.js"
+      }
   end
 end

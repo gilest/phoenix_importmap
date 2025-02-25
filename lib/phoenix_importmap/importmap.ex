@@ -12,6 +12,23 @@ defmodule PhoenixImportmap.Importmap do
           imports: map()
         }
 
+  def assets(importmap = %{}) do
+    importmap
+    |> Enum.reduce(%{}, fn {specifier, path}, acc ->
+      specifier = Atom.to_string(specifier)
+      is_directory_specifier? = String.ends_with?(specifier, "/")
+      case is_directory_specifier? do
+        false ->
+          Map.put(acc, specifier, path)
+        true ->
+          PhoenixImportmap.Directory.assets(specifier, path)
+          |> Enum.reduce(acc, fn {asset_specifier, asset_path}, internal_acc ->
+            Map.put(internal_acc, asset_specifier, asset_path)
+          end)
+      end
+    end)
+  end
+
   @doc """
   Copies importmap assets to `:copy_destination_path`.
   """
