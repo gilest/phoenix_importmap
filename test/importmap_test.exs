@@ -68,7 +68,8 @@ defmodule PhoenixImportmapImportmapTest do
   test "assets" do
     assert PhoenixImportmap.Importmap.assets(@directory_importmap) ==
       %{
-        "directory/child.js" => "/test/fixtures/directory/child.js"
+        "directory/child.js" => "/test/fixtures/directory/child.js",
+        "directory/subdir/subchild.js" => "/test/fixtures/directory/subdir/subchild.js",
       }
   end
 end
