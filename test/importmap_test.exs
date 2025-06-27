@@ -11,6 +11,10 @@ defmodule PhoenixImportmapImportmapTest do
   }
 
   @directory_importmap %{
+    "directory/": "/test/fixtures/directory",
+  }
+
+  @directory_importmap_trailing_slash %{
     "directory/": "/test/fixtures/directory/",
   }
 
@@ -66,10 +70,13 @@ defmodule PhoenixImportmapImportmapTest do
   # end
 
   test "assets" do
-    assert PhoenixImportmap.Importmap.assets(@directory_importmap) ==
-      %{
-        "directory/child.js" => "/test/fixtures/directory/child.js",
-        "directory/subdir/subchild.js" => "/test/fixtures/directory/subdir/subchild.js",
-      }
+    expected = %{
+               "directory/child.js" => "/test/fixtures/directory/child.js",
+               "directory/subdir/child_subdir/double_subchild.js" =>
+                 "/test/fixtures/directory/subdir/child_subdir/double_subchild.js",
+               "directory/subdir/subchild.js" => "/test/fixtures/directory/subdir/subchild.js"
+             }
+    assert PhoenixImportmap.Importmap.assets(@directory_importmap) == expected
+    assert PhoenixImportmap.Importmap.assets(@directory_importmap_trailing_slash) == expected
   end
 end

@@ -6,7 +6,7 @@ defmodule PhoenixImportmap.Directory do
   alias PhoenixImportmap.Util
 
   def assets(specifier, path) do
-    assets_for_leaf(specifier, tree(path))
+    assets_for_leaf(specifier, tree(Util.normalized_path(path)))
   end
 
   def assets_for_leaf(specifier, leaf) do
